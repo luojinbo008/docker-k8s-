@@ -19,7 +19,7 @@
 
     yum repolist
 
-![yum repolist](doc-img/dock/1.png)
+![yum repolist](../../doc-img/dock/1.png)
 
 ####2.安装 docker （docker-ce）
 
@@ -57,4 +57,4 @@ docker cn: https://registry.docker-cn.com/
       docker info
       
 
-![yum repolist](doc-img/dock/2.png)
+![yum repolist](../../doc-img/dock/2.png)
