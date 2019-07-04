@@ -5,17 +5,26 @@
 
 下载源 docker_ce
 
+1. 清华源:
+
+
     cd /etc/yum.repos.d/
 
     wget https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/centos/docker-ce.repo
-
-替换源
-
+    
+    // 替换源
     vim /etc/yum.repos.d/docker-ce.repo
     
     :@https://download.docker.com/@https://mirrors.tuna.tsinghua.edu.cn/docker-ce/@
 
-查看 yum 源是否生效
+2. 阿里云源（阿里云源比较贴心，已经替换）
+
+
+    cd /etc/yum.repos.d/
+    wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+    
+    
+查看 yum 源是否生效（清华源）
 
     yum repolist
 
@@ -57,4 +66,4 @@ docker cn: https://registry.docker-cn.com/
       docker info
       
 
-![yum repolist](../../doc-img/dock/2.png)
+![docker info](../../doc-img/dock/2.png)
