@@ -46,11 +46,11 @@ kubeadm([文档链接](https://github.com/kubernetes/kubeadm/blob/master/docs/de
    ![yum repolist](../../doc-img/k8s/1.png)
    
    
-  安装 docker_ce, kubeadm, kubelet (master, node 都需要安装)
+   安装 docker_ce, kubeadm, kubelet (master, node 都需要安装)
   
     yum install docker_ce kubeadm kubelet
   
-  被墙因素操作 设置代理（或其他方式科学上网方式解决）词方法废弃，本人利用阿里云制作国内镜像解决
+   被墙因素操作 设置代理（或其他方式科学上网方式解决）词方法废弃，本人利用阿里云制作国内镜像解决
   
        vim /usr/lib/systemd/system/docker.service 
        
@@ -60,7 +60,7 @@ kubeadm([文档链接](https://github.com/kubernetes/kubeadm/blob/master/docs/de
        
    
    
-  下拉需要的images（采用阿里云制作国内镜像，在修改本地镜像名称）
+   下拉需要的images（采用阿里云制作国内镜像，在修改本地镜像名称）
        
        // sh 文件 方便操作 并执行sh文件
         
@@ -83,7 +83,7 @@ kubeadm([文档链接](https://github.com/kubernetes/kubeadm/blob/master/docs/de
        cat /proc/sys/net/bridge/bridge-nf-call-ip6tables 
        1
        
-  启动docker，kubeadm, kubelet
+   启动docker，kubeadm, kubelet
   
     开机自动启动
     systemctl enable docker.service
@@ -145,3 +145,143 @@ kubeadm([文档链接](https://github.com/kubernetes/kubeadm/blob/master/docs/de
     
     kubeadm join 172.30.0.15:6443 --token u5047s.tipq90q9bnk8czg2 \
         --discovery-token-ca-cert-hash sha256:4b5d8242434204a3eed4d54b240498f0878e44dcd4666e082a133fecf82bac81
+
+
+
+
+####4. kubectl（管理入口-客户端）
+
+
+   kubectl: 链接 api-server 对各种资源对正删改查。。。
+   
+   资源：pods， server， controller（replicaset，deployment, daemonset, job, crontjob 控制器种类），node 
+
+
+
+####5. k8s 命令创建环境
+
+######1.   创建pods
+   
+    kubectl run 【name】--image=【image】--port=80 --relicas=【pods个数】 // 创建pods
+    
+    kubectl get pods -o wide
+    
+    
+######2.   外部client 访问集群内部网络（通过特殊的service）
+    
+    // 资源包括(不区分大小写)：
+    // pod（po），service（svc），replication controller（rc），deployment（deploy），replica set（rs）
+    
+    // 将资源暴露为新的Kubernetes Service。
+    
+    kubectl expose 资源类型【pods name】--name=【name】--port=80 --target-port=80 --protocol=TCP
+
+    // 这一步说是将服务暴露出去，实际上是在服务前面加一个负载均衡，因为pod可能分布在不同的结点上。
+     
+    –port：暴露出去的端口 
+    –type=NodePort：使用结点 + 端口方式访问服务 
+    –target-port：容器的端口 
+    –name：创建service指定的名称
+    
+    // 查看 service 信息
+    kubectl get scv -n name
+    
+    // 集群外部访问，修改svc
+    kubectl edit svc [name]
+    // 其中spec.type=ClusterIP 改成 spec.type=NodePort 
+    
+    // 然后查看svc 信息
+    kubectl get svc
+    
+####5 通过配置清单文件(yaml文件) 搭载 （推荐）
+   
+#####1.  k8s 核心资源: 对象
+   
+   workload（工作负载型资源）：pod, ReplicaSet, Deployment, DaemonSet, job, CrontJob 
+
+   服务发现及服务均衡资源：Service，Ingress，...
+   
+   
+   配置与存储型资源：Volume，CSI
+    
+  
+   - ConfigMap（保存配置中心资源），Secret（保护敏感资源）
+   
+   - DownWardAPI （外部环境输出给容器的资源）
+   
+   
+   集群级别到资源：
+   
+   - NameSpace, Node, Role, ClusterRole, RoleBinding, ClusterRoleBinding
+   
+   元数据资源:
+   
+   - HPA: PodTemplate, LimitTemplate
+   
+#####2.  搭载
+
+例：获取一个pod 到配置
+
+    kubectl get pod 【名称】-o yaml
+
+    // key说明
+    apiVersion group/version  group 默认 core（核心组
+    
+    kind pod 资源类别
+    
+    metaData 元数据
+    
+    spec 规格 定义资源对象应该有到特性（目标状态）
+    
+    status 当前状态 系统来维护
+    
+创建资源到方法：
+
+- apiServer 仅接受 json 格式数据的资源定义
+
+- yaml格式提供配置清单，apiServer 可自动转义成json，在执行
+
+大部分资源的配置清单：
+
+- apiVersion 以“组/版本”的格式输出服务端支持的API版本。
+  
+  命令 kubectl api-versions 
+  
+    
+- kind 资源类别哦
+
+- metaData 元数据
+
+   - name 
+    
+   - namespace
+   
+   - labels 标签
+   
+   - annotation 备注
+
+   - resourceVersion
+   
+   - uid
+   
+   - selfLink 每个资源的引用PATH      /api/GROUP/VERSION/namespaces/NAMESPACE/TYPE/NAME
+
+- spec 期望的状态
+
+- status 当前状态 （让当前状态无限接近 期望状态， 有k8s集群维护，用户无法定义）
+
+
+k8s 格式说明
+
+    kubectl explain pods | pods.metadata ...(资源)
+
+创建
+
+    kubectl create -f xxx.yaml
+    
+    
+
+    
+    
+   
+   

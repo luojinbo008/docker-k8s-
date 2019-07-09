@@ -1,0 +1,249 @@
+设计模式
+普通工厂模式 Factory.   例子getDB（$type）
+抽象工厂模式  （开闭原则）  开放类新增， 关闭类修改 引入接口，抽象类
+单例模式 只能new 一个对象  product __constuct().    Static createClass()  判断有了，就直接返回的。clone （） 不是同一个值，用clone 魔术方法限制
+	和java区别 （懒汉模式   饿汉模式） java class 初始化 的时候 new self(); php 不行（只能是确切的值）
+观察者模式： 改变属性，通知别人
+责任链模式： 上级对象， 本期权限判断 ，处理不了给上级
+策略模式： 不同子对象抽象出来，饭店 对象。各种厨师对象  -> 有什么比是什么重要（组合比继承要灵活）
+装饰器模式： class Art($content）  Art1 extent Art($art) ….. 不断传递 art 对象 传递 附加操作
+适配器模式： class A  class B   A 数据和外界要的数据标准不一样 B 转一步
+桥接模式： class A   有子 class A1 class A2   还有动作级别B1 B2 方法中 传递 A 加级别 （一个类 没干完，后一个类别接着干）
+
+sku 设计
+spu 设计
+
+三层架构 MVC
+DAO 数据访问层
+Service 业务逻辑层
+View 视图层
+
+####
+docker 间通信 docker build  . 作用
+Mysql 引擎
+Mysql 事务隔离
+Mysql 索引优化
+Mysql innodb 锁的算法
+online-ddl
+分区技术
+集群
+
+框架的作用
+redis 过滤 （hash table）
+Redis 内存满了以后，发生的事情 (热点问题一致)
+各种锁处理，吧嗒吧嗒
+静态服务器
+redis 数据结构
+
+linux 端口占有 lsof netstat
+怎么看内存 cpu 占用
+怎么看某个进程 cpu 占用
+怎么排查top 看不出吃内存，cpu 新能问题 xdebug xhprof
+
+Php 怎么实现多进程的
+dmesg -l err -H
+
+grep 'xxxx' cli_lumen-2019-04-24.log |wc -l
+
+cat word.txt|awk '{a[$0]++}END{for(i in a) print i" "a[i]}'|sort -k2r|head -3
+
+怎么看假死进程在干么
+golang gc
+php-fpm gc 引用数为0，回收
+
+算法：
+Redis 热点数据实现 (数据过期，算法)
+如何找出 1G 文件最大的100个数  堆结构
+令牌桶算法
+
+golang make new 区别
+golang map 怎么实现的
+
+Tcp 3次握手 4次分手
+https 请求流程
+session 机制
+
+用过哪些中间件
+
+大流量网站
+集群  只有一台激活服务器（休眠服务器，一条线监控激活服务器）
+
+#######
+负载均衡 （流量分流）冗余技术（单点故障）
+网络
+F5
+思科以太网通道
+
+网络架构
+服务器架构
+业务架构
+
+服务器
+Linux服务器 LVS   dr(代替net 技术)   lvs调度器 -> 服务器池 -> 公共数据存储
+win服务器 NLB技术
+
+冗余技术
+网络级别 路由器
+服务器级别 LVS
+
+冗余 -> 心跳线- > 自动上线
+linux HAj集群技术
+
+#####
+网站加速
+Squid 技术 代理缓存技术 （反向缓存 - 动静分离） Squid缓存池 （售票点 -> 总部）
+页面静态化缓存   1. Nginx 重写功能 维静态 （搜索引擎收录，实际不是加速） **2. 模版技术 smart  3. Ajax 技术 （页面异步）
+cache （memcached）查询加速
+Sphinx 基于sql 全文搜索 搜索加速 （es 对比 能力提升）中文分词技术    高领技术？？
+
+
+####
+服务监控   流量监控
+
+1.服务监控
+apache web 监控 snap  smp
+Mysql 数据库监控
+磁盘监控
+
+2.流量监控
+网站流量监控
+
+mrtg 工具
+mid
+postfix 发邮件系统 dovcot 收邮件
+
+####
+压力测试
+apache ab 压测
+mysql mysqlslap 压测
+
+###
+Lvs 三种负载均衡技术 1. nat 网络地址转化（数据包 中的地址转化） 2.ip tun。2. Dr 技术原理
+
+网络七层模型（osi） （liming 课程）
+物理层	  （线缆， 水晶头物理设备。。。标准）
+数据链路层  （数据加封，源mac地址，目标mac地址）
+网络层        （加源ip 地址，目标ip地址）
+传输层	 （标记 源端口 目标端口， tcp udp）
+会话层	 （通讯状态）
+表示层	 （数据形态，数据编码）
+应用层	 （应用软件，用户接口）
+
+端口数量  65535
+
+交换机 （所有计算机 mac地址，端口）广播询问（谁来过，记录谁的mac 和 端口）
+
+ARP 协议 (单个广播)
+代理ARP 协议 (广播)
+
+F5 nat 地址转换技术 （轮询）
+
+Lvs + nat 路由器（出，入都经过lvs）
+Lvs + tun （ip隧道） （入经过 lvs 出 不经过 lvs）
+lvs + dr
+
+
+代理原理（非走路由表，应用层）
+
+squid
+代理缓存
+
+Mysql  主从
+
+Mysql 分区
+range分区 给定连续区间（列值）分区
+partition by range (分区字段) (
+partition <分区名称> values less than (Value),
+partition <分区名称> values less than (Value),
+…
+partition <分区名称> values less than maxvalue,
+)
+
+
+List 分区  给定离散值（枚举 比如 男，女）（列值）分区
+
+range分区 给定连续区间（列值）分区
+partition by list (分区字段) (
+partition <分区名称> values in (Value, value, value),
+…
+partition <分区名称> values in (Value, value, value),
+)
+
+Hash 分区 随机分配（列值） 没规律 （不常用，测试用）
+partition by hash (分区字段)
+partitions num
+
+Key 分区 （类似 hash 分区） 算法复制
+partition by key (分区字段)
+partitions num
+
+Mysql 分库 （水平，垂直） 分表
+
+Sql 优化
+Mysql数据库优化
+Myisam 表锁
+Mysql 服务器优化
+
+truncate 清空表
+
+with rollup 不能和order同时使用
+
+Show status like ‘Com_insert%’… 本地
+  只针对 innodb.  Innodb-rows-read    Innodb-rows-update…
+Show global status like ‘Com_insert%’ 服务器启动以来
+
+索引使用情况
+Show status like ‘handler_read_*’
+Show variables like …
+check table  xxx
+
+Optimiz 优化表结构 表大不适用
+
+1 Load 导入数据 适当 设置可以加快 （Myisam引擎）
+2 关闭 普通索引， alter tabke disable keys
+关闭唯一索引 set unique_checks= 0
+
+3 关闭自动提交（innodb）
+set autocommit = 0
+
+load 语法 Load data infile  xxx into table value(“name”)  导入
+select xxxx  into outfile xxx
+
+insert 优化 insert 合并
+insert delayed  (放内存中，等待，直接返回)
+
+group by时 优化
+     Order by  默认生序排序， （最后 order by null 关闭）
+
+嵌套查询少用  外面的用不到（join ）
+
+使用中间表 提高查询速度 （）
+
+Myisam 读锁定  所有人只能读，不能写（包括我）
+Myisam 写锁定 只能我操作
+lock table t read|write
+
+服务器优化
+6.1 四种字符集问题
+6.2 binary log
+6.3 slow log
+6.4 socket  问题 sock 文件（被删） —protocol tcp
+6.5 root 密码丢失  mysqld_safe
+
+Snmp 协议（网络管理协议） 常见操作（Mid）
+轮询（一段时间，去拿），中断 （主动打报告）
+Udp 协议 161 端口（除了trag）
+trag 162 端口
+
+共同体名
+只读（基本这个）
+读写
+
+管理软件
+mrgt （开源）
+
+Nginx 配置
+
+php-fpm 配置
+
+orm 原理，laravel 容器实现原理
