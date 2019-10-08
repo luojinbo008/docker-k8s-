@@ -10,6 +10,7 @@
 适配器模式： class A  class B   A 数据和外界要的数据标准不一样 B 转一步
 桥接模式： class A   有子 class A1 class A2   还有动作级别B1 B2 方法中 传递 A 加级别 （一个类 没干完，后一个类别接着干）
 
+
 sku 设计
 spu 设计
 

@@ -59,15 +59,66 @@
     
         - 合labels 的区别， 不能用于挑选资源，仅对资源做"元数据" （健，值 不受限制）
         
-        - 大型项目 来表明原数据
+        - 大型项目 来表明元数据
         
         - 查看 describe nodes name
         
    
    
    - pod 生命周期
-    
-    
    
+        - 状态 
+            - pending（挂起，已经创建，但是没有适合运行的节点）
+            - running 运行
+            - failed 失败 
+            - successed 成功 （pod 运行很短）
+            - unknown (节点上 kubelet 故障)
+        
+        - 创建Pod：
            
-  
+           - apiServer 接收请求
+           
+           - scheduler 调度节点
+           
+           - kubelet 拿到创建清单
+           
+        - 初始化容器
+        
+            - init container 穿行初始化容器
+            
+            - main container 主程序
+            
+            - post start 提供启动前，需要的操作 (先执行 docker entryPoint 在执行postStart)
+            
+            - pre stop 提供关闭前，需要的操作
+            
+            - liveness probe 主进程存活状态检测（容器探测）
+            
+            - readness probe 主进程就绪状态检测（容器探测）
+            
+        ![pod 生命周期](../../doc-img/k8s/3.png)
+        
+        - 容器重启策略
+        
+            - restartPolicy ：Always（总是）， OnFailure（只有状态为错误，非正常结束）， Never（永不重启）（默认 Always）
+            
+            - 第一次立刻重启, 后面重启延迟
+            
+            - 除非node 被删，pod 永远在 一个node 上重启
+            
+        - pod 终止过程（k8s中主要单位）
+        
+            - 平滑终止 对pod 内容器 广播 中止信号（15），并给一个宽限期（默认30秒）， 30秒后，发送kill 信号
+           
+        - 容器探测（三种探针类型） 
+        
+                // 查看格式 
+                kubectl describe pods.spec.containers.livenessProbe
+            
+            - execAction
+            
+            - tcpSocketAction
+            
+            - HTTPGetAction
+            
+        
