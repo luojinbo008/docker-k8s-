@@ -10,7 +10,6 @@
 适配器模式： class A  class B   A 数据和外界要的数据标准不一样 B 转一步
 桥接模式： class A   有子 class A1 class A2   还有动作级别B1 B2 方法中 传递 A 加级别 （一个类 没干完，后一个类别接着干）
 
-
 sku 设计
 spu 设计
 
@@ -41,14 +40,14 @@ linux 端口占有 lsof netstat
 怎么看某个进程 cpu 占用
 怎么排查top 看不出吃内存，cpu 新能问题 xdebug xhprof
 
-Php 怎么实现多进程的
+Php 怎么实现多进程
 dmesg -l err -H
 
 grep 'xxxx' cli_lumen-2019-04-24.log |wc -l
 
 cat word.txt|awk '{a[$0]++}END{for(i in a) print i" "a[i]}'|sort -k2r|head -3
 
-怎么看假死进程在干么
+怎么看假死进程在干么 打开core？
 golang gc
 php-fpm gc 引用数为0，回收
 
@@ -248,3 +247,4 @@ Nginx 配置
 php-fpm 配置
 
 orm 原理，laravel 容器实现原理
+
